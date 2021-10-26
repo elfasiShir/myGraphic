@@ -27,4 +27,8 @@ public class Ray {
     public void setHead(Point3D head) { this.head = head; }
     public boolean equals(Ray other){ return this.head.equals(other.getHead()) && this.direction.equals(other.getDirection()); }
 
+    @Override
+    public String toString() {
+        return "starting point: " + head + " direction: " + direction ;
+    }
 }

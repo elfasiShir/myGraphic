@@ -1,38 +1,70 @@
 package Primitives;
+import java.lang.Math;
 
 public class Point3D{
-    private Cordinate x;
-    private Cordinate y;
-    private Cordinate z;
+    private Coordinate x;
+    private Coordinate y;
+    private Coordinate z;
     public Point3D(double x, double y, double z){
-        this.x = new Cordinate(x);
-        this.y = new Cordinate(y);
-        this.z = new Cordinate(z);
+        this.x = new Coordinate(x);
+        this.y = new Coordinate(y);
+        this.z = new Coordinate(z);
     }
     public Point3D(Point3D other){
-        this.x = new Cordinate(other.getXVal());
-        this.y = new Cordinate(other.getYVal());
-        this.z = new Cordinate(other.getZVal());
+        this.x = new Coordinate(other.getXVal());
+        this.y = new Coordinate(other.getYVal());
+        this.z = new Coordinate(other.getZVal());
     }
-    public Point3D(Cordinate x, Cordinate y, Cordinate z){
+    public Point3D(Coordinate x, Coordinate y, Coordinate z){
         this.x = x;
         this.y = y;
         this.z = z;
     }
     public Point3D(){
-        this.x = new Cordinate(0.0);
-        this.y = new Cordinate(0.0);
-        this.z = new Cordinate(0.0);
+        this.x = new Coordinate(0.0);
+        this.y = new Coordinate(0.0);
+        this.z = new Coordinate(0.0);
     }
-    public double getXVal(){return this.x.getCordinate();}
-    public double getYVal(){return this.y.getCordinate();}
-    public double getZVal(){return this.z.getCordinate();}
+    public double getXVal(){return this.x.getValue();}
+    public double getYVal(){return this.y.getValue();}
+    public double getZVal(){return this.z.getValue();}
 
-    public Cordinate getX(){return this.x;}
-    public Cordinate getY(){return this.y;}
-    public Cordinate getZ(){return this.z;}
+    public Coordinate getX(){return this.x;}
+    public Coordinate getY(){return this.y;}
+    public Coordinate getZ(){return this.z;}
+
+    public void setX(double x) {this.x.setValue(x);}
+    public void setY(double y) {this.y.setValue(y);}
+    public void setZ(double z) {this.z.setValue(z);}
 
     public boolean equals(Point3D other){
         return (this.x.equals(other.getX()) && this.y.equals(other.getY()) && this.z.equals(getZ()));
     }
+
+    @Override
+    public String toString() {
+        return "( " + x + ", " + y + ", " + z + ')';
+    }
+    public Point3D add(Point3D other){
+        return new Point3D(
+                this.x.getValue() + other.getXVal(),
+                this.y.getValue() + other.getYVal(),
+                this.z.getValue() + other.getZVal());
+    }
+    public Point3D add(Vector other){
+        return add(other.getHead());
+    }
+    public Vector subtract(Point3D other){
+        return new Vector(
+                this.getXVal() - other.getXVal(),
+                this.getYVal() - other.getYVal(),
+                this.getZVal() - other.getZVal());
+    }
+    public double distance(Point3D other){
+        return Math.sqrt(
+                Math.pow(this.getXVal() + other.getXVal(), 2) +
+                Math.pow(this.getYVal() + other.getYVal(), 2) +
+                Math.pow(this.getZVal() + other.getZVal(), 2));
+    }
+
 }
