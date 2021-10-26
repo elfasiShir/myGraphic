@@ -23,4 +23,8 @@ public class Ray {
     }
     public Vector getDirection() { return direction; }
     public Point3D getHead() { return head; }
+    public void setDirection(Vector direction) { this.direction = direction; }
+    public void setHead(Point3D head) { this.head = head; }
+    public boolean equals(Ray other){ return this.head.equals(other.getHead()) && this.direction.equals(other.getDirection()); }
+
 }

@@ -12,11 +12,4 @@ public class Vector {
     public void setHead(Point3D other){this.head = other;}
     public void setHead(double x, double y, double z){this.head = new Point3D(x, y, z);}
     public void setHead(Cordinate x, Cordinate y, Cordinate z){this.head = new Point3D(x, y, z);}
-
-    @Override
-    public String toString() { return "" + head; }
-
-
-
-
 }

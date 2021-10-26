@@ -32,7 +32,6 @@ public class Point3D{
     public Cordinate getY(){return this.y;}
     public Cordinate getZ(){return this.z;}
 
-    public String toString(){return "( " + x.toString() + ", " + y.toString() + ", " + z.toString() +  " )" ;}
     public boolean equals(Point3D other){
         return (this.x.equals(other.getX()) && this.y.equals(other.getY()) && this.z.equals(getZ()));
     }
