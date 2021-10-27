@@ -1,7 +1,7 @@
 package Geometrics;
 import Primitives.Point3D;
 
-public class Triangle {
+public class Triangle extends Geometry{
     private Point3D p1;
     private Point3D p2;
     private Point3D p3;
@@ -41,5 +41,19 @@ public class Triangle {
     public void setP2(double x2 ,double y2, double z2) {this.p2 = new Point3D(x2, y2, z2);}
     public void setP3(double x3 ,double y3, double z3) {this.p3 = new Point3D(x3, y3, z3);}
 
-
+    public boolean equals(Triangle other){
+        return  this.p1.equals(other.getP1()) && this.p1.equals(other.getP2()) &&
+                this.p1.equals(other.getP3()) &&
+                this.p2.equals(other.getP1()) && this.p2.equals(other.getP2()) &&
+                this.p2.equals(other.getP3()) &&
+                this.p3.equals(other.getP1()) && this.p3.equals(other.getP2()) &&
+                this.p3.equals(other.getP3());
+    }
+    @Override
+    public String toString() {
+        return "Triangle: " +
+                "p1 = " + p1 +
+                ", p2 = " + p2 +
+                ", p3 = " + p3;
+    }
 }
