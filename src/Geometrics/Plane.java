@@ -30,6 +30,8 @@ public class Plane {
     public void setPoint(double x, double y, double z){this.point = new Point3D(x, y, z);}
     public void setVertical(Vector vertical) {this.vertical = new Vector(vertical);}
 
+    public boolean equals(Plane other){return this.point.equals(other.getPoint()) && this.vertical.equals(other.getVertical());}
+
     @Override
     public String toString() {
         return "Plane: " +
