@@ -13,7 +13,6 @@ public class testVector {
     public void testLength() {
         // TC01: Simple test
         assertEquals("length() wrong value", 5d, new Vector(0, 3, 4).length(), 0.00001);
-
     }
 
     @Test
