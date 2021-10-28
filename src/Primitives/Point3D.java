@@ -1,15 +1,20 @@
 package Primitives;
 import java.lang.Math;
+import java.util.Objects;
 
 public class Point3D{
     private Coordinate x;
     private Coordinate y;
     private Coordinate z;
+
+    static final Point3D ZERO = new Point3D(0,0,0);
+
     public Point3D(double x, double y, double z){
         this.x = new Coordinate(x);
         this.y = new Coordinate(y);
         this.z = new Coordinate(z);
     }
+
     public Point3D(Point3D other){
         this.x = new Coordinate(other.getXVal());
         this.y = new Coordinate(other.getYVal());
@@ -36,6 +41,7 @@ public class Point3D{
     public void setX(double x) {this.x.setValue(x);}
     public void setY(double y) {this.y.setValue(y);}
     public void setZ(double z) {this.z.setValue(z);}
+
 
     public boolean equals(Point3D other){
         return (this.x.equals(other.getX()) && this.y.equals(other.getY()) && this.z.equals(getZ()));
@@ -67,4 +73,16 @@ public class Point3D{
                 Math.pow(this.getZVal() + other.getZVal(), 2));
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Point3D)) return false;
+        Point3D point3D = (Point3D) o;
+        return Objects.equals(x, point3D.x) && Objects.equals(y, point3D.y) && Objects.equals(z, point3D.z);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y, z);
+    }
 }

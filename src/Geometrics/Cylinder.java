@@ -1,6 +1,8 @@
 package Geometrics;
 import Primitives.Ray;
 
+import java.util.Objects;
+
 public class Cylinder extends Geometry {
     private double rad;
     private double height;
@@ -35,6 +37,19 @@ public class Cylinder extends Geometry {
         return this.axis.equals(other.getAxis()) &&
                 this.height == other.getHeight() &&
                 this.rad == other.getRad();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Cylinder)) return false;
+        Cylinder cylinder = (Cylinder) o;
+        return Double.compare(cylinder.rad, rad) == 0 && Double.compare(cylinder.height, height) == 0 && Objects.equals(axis, cylinder.axis);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(rad, height, axis);
     }
 
     @Override

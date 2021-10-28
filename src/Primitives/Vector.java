@@ -1,11 +1,12 @@
 package Primitives;
 
+import java.util.Objects;
+
 public class Vector {
     private Point3D head;
 
     public Vector() {this.head = new Point3D();}
-    public Vector(Point3D other) {this.head = other;}
-    public Vector(double x, double y, double z) {this.head = new Point3D(x, y, z);}
+
     public Vector(Vector other) {this.head = new Point3D(other.getHead());}
     public Point3D getHead() {return this.head;}
     public boolean equals(Vector other) {return this.head.equals(other.getHead());}
@@ -20,6 +21,7 @@ public class Vector {
     public double length() {
         return (new Point3D().distance(this.head));
     }
+
     public Vector normalize() {
         Vector v = new Vector();
         double length = this.length();
@@ -31,6 +33,18 @@ public class Vector {
     }
     public Vector add(Vector other) {
         return new Vector(this.getHead().add(other.getHead()));
+    }
+
+    public Vector(double x, double y, double z) {
+        this.head = new Point3D(x, y, z);
+        if (Point3D.ZERO.equals(this.head)) {
+            throw new IllegalArgumentException("Zero vector is not allowed");
+        }
+    }
+    public Vector(Point3D p) {
+        if (Point3D.ZERO.equals(p))
+            throw new IllegalArgumentException("Zero vector is not allowed");
+        this.head = new Point3D(p);
     }
 
     public Vector subtract(Vector other) {
@@ -50,7 +64,7 @@ public class Vector {
                 - this.getHead().getZVal() * other.getHead().getYVal());
         newHead.setY(this.getHead().getZVal() * other.getHead().getXVal()
                 - this.getHead().getXVal() * other.getHead().getZVal());
-        newHead.setX(this.getHead().getXVal() * other.getHead().getYVal()
+        newHead.setZ(this.getHead().getXVal() * other.getHead().getYVal()
                 - this.getHead().getYVal() * other.getHead().getXVal());
         return (new Vector(newHead));
     }
@@ -59,6 +73,17 @@ public class Vector {
         return (this.getHead().getXVal() * other.getHead().getXVal()
                 + this.getHead().getYVal() * other.getHead().getYVal()
                 + this.getHead().getZVal() * other.getHead().getZVal());
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Vector)) return false;
+        Vector vector = (Vector) o;
+        return Objects.equals(head, vector.head);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(head);
     }
 }
