@@ -7,7 +7,7 @@ public class Point3D{
     private Coordinate y;
     private Coordinate z;
 
-    static final Point3D ZERO = new Point3D(0,0,0);
+    public static final Point3D ZERO = new Point3D(0,0,0);
 
     public Point3D(double x, double y, double z){
         this.x = new Coordinate(x);
