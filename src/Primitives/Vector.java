@@ -5,7 +5,7 @@ import java.util.Objects;
 public class Vector {
     private Point3D head;
 
-    public Vector() {this.head = new Point3D();}
+    public Vector() { this.head = new Point3D(1,1,1); }
 
     public Vector(Vector other) {this.head = new Point3D(other.getHead());}
     public Point3D getHead() {return this.head;}
@@ -23,13 +23,13 @@ public class Vector {
     }
 
     public Vector normalize() {
-        Vector v = new Vector();
+
         double length = this.length();
-        v.setHead(
+        Vector vector = new Vector(
                 this.getHead().getXVal() / length,
                 this.getHead().getYVal() / length,
                 this.getHead().getZVal() / length);
-        return v;
+        return vector;
     }
     public Vector add(Vector other) {
         return new Vector(this.getHead().add(other.getHead()));
@@ -57,16 +57,13 @@ public class Vector {
                 this.getHead().getYVal() * scalar,
                 this.getHead().getZVal() * scalar));
     }
-
-    public Vector crossProduct(Vector other) {
-        Point3D newHead = new Point3D();
-        newHead.setX(this.getHead().getYVal() * other.getHead().getZVal()
-                - this.getHead().getZVal() * other.getHead().getYVal());
-        newHead.setY(this.getHead().getZVal() * other.getHead().getXVal()
-                - this.getHead().getXVal() * other.getHead().getZVal());
-        newHead.setZ(this.getHead().getXVal() * other.getHead().getYVal()
-                - this.getHead().getYVal() * other.getHead().getXVal());
-        return (new Vector(newHead));
+    public Vector crossProduct(Vector other){
+        Coordinate x = new Coordinate((this.getHead().getYVal() * other.getHead().getZVal()) - (this.getHead().getZVal() * other.getHead().getYVal()));
+        Coordinate y = new Coordinate((this.getHead().getZVal() * other.getHead().getXVal()) - (this.getHead().getXVal() * other.getHead().getZVal()));
+        Coordinate z = new Coordinate((this.getHead().getXVal() * other.getHead().getYVal()) - (this.getHead().getYVal() * other.getHead().getXVal()));
+        Point3D head = new Point3D(x,y,z);
+        Vector vector = new Vector(head);
+        return vector;
     }
 
     public double dotProduct(Vector other) {

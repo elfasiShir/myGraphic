@@ -43,10 +43,6 @@ public class Point3D{
     public void setZ(double z) {this.z.setValue(z);}
 
 
-    public boolean equals(Point3D other){
-        return (this.x.equals(other.getX()) && this.y.equals(other.getY()) && this.z.equals(getZ()));
-    }
-
     @Override
     public String toString() {
         return "( " + x + ", " + y + ", " + z + ')';

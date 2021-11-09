@@ -6,10 +6,10 @@ public class Ray {
     private Point3D head;
     private Vector direction;
 
-    public Ray(){
-        this.head = new Point3D();
-        this.direction = new Vector();
-    }
+    //public Ray(){
+     //   this.head = new Point3D();
+       // this.direction = new Vector();
+    //}
     public Ray(double xPoint, double yPoint, double zPoint,
                double xVector, double yVector, double zVector){
         this.head  = new Point3D(xPoint, yPoint, zPoint);

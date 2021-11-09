@@ -10,7 +10,7 @@ public class Cylinder extends Geometry {
     public Cylinder(){
         this.rad = 0.0;
         this.height = 0.0;
-        this.axis = new Ray();
+        //this.axis = new Ray();
     }
     public Cylinder(double rad, double height,
                     double xPoint, double yPoint, double zPoint,

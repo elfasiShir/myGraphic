@@ -8,7 +8,7 @@ import Primitives.*;
 import Primitives.Vector;
 import org.junit.Test;
 
-public class testVector {
+public class testVector{
     @Test
     public void testLength() {
         // TC01: Simple test
