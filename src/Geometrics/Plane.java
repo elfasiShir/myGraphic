@@ -1,10 +1,13 @@
 package Geometrics;
 import Primitives.Point3D;
+import Primitives.Ray;
 import Primitives.Vector;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
-public class Plane {
+public class Plane extends Geometry{
     private Point3D point;
     private Vector vertical;
 
@@ -48,6 +51,34 @@ public class Plane {
 
 
     public boolean equals(Plane other){return this.point.equals(other.getPoint()) && this.vertical.equals(other.getVertical());}
+
+    @Override
+    public List<Point3D> findIntersections(Ray ray){
+        Vector vector = new Vector(this.getPoint().subtract(ray.getHead()));
+        double t = this.getVertical().dotProduct(vector)
+                /
+                this.getVertical().dotProduct(ray.getDirection());
+        Point3D point3D = new Point3D(ray.getHead().add(ray.getDirection().scale(t)));
+        if (t>0){
+            List<Point3D> list = new ArrayList<Point3D>();
+            list.add(point3D);
+            return list;
+        }
+        else{
+            return null;
+        }
+    }
+
+    @Override
+    public Vector getNormal(Point3D point) {
+        Vector vector = new Vector(this.getPoint().subtract(point));
+        if(this.getVertical().dotProduct(vector) ==0)
+            return this.getVertical();
+        else{
+            return null;
+        }
+    }
+
 
     @Override
     public boolean equals(Object o) {

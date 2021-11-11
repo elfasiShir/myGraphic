@@ -1,5 +1,10 @@
 package Geometrics;
 import Primitives.Point3D;
+import Primitives.Ray;
+import Primitives.Vector;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Sphere extends Geometry{
     private Point3D center;
@@ -29,9 +34,46 @@ public class Sphere extends Geometry{
     public void setRadius(double radius){this.radius = radius;}
 
     @Override
+    public List<Point3D> findIntersections(Ray cameraRay){
+        List<Point3D> point3DList = new ArrayList<Point3D>();
+        Vector u = cameraRay.getHead().subtract(this.getCenter());
+        double tm = cameraRay.getDirection().dotProduct(u);
+        double distance = Math.sqrt(
+                Math.pow(u.length(),2) -
+                        Math.pow(tm,2)
+        );
+        if(distance > this.getRadius())
+            return null;
+        else{
+            double th = Math.sqrt(
+                    Math.pow(this.getRadius(),2) -
+                            Math.pow(distance,2)
+                );
+                double t1 = tm-th;
+                double t2 = tm+th;
+                point3DList.add(cameraRay.getHead().add(cameraRay.getDirection().scale(t1)));
+                point3DList.add(cameraRay.getHead().add(cameraRay.getDirection().scale(t2)));
+                return point3DList;
+            }
+
+    }
+    @Override
+    public Vector getNormal(Point3D point) {
+        return point.subtract(this.center);
+    }
+    @Override
     public String toString() {
         return "Sphere: " +
                 "center = " + center +
                 ", radius = " + radius;
     }
 }
+
+
+
+
+
+
+
+
+

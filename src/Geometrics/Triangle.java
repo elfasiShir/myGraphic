@@ -1,5 +1,9 @@
 package Geometrics;
 import Primitives.Point3D;
+import Primitives.Ray;
+import Primitives.Vector;
+
+import java.util.List;
 
 public class Triangle extends Geometry{
     private Point3D p1;
@@ -40,6 +44,42 @@ public class Triangle extends Geometry{
     public void setP1(double x1 ,double y1, double z1) {this.p1 = new Point3D(x1, y1, z1);}
     public void setP2(double x2 ,double y2, double z2) {this.p2 = new Point3D(x2, y2, z2);}
     public void setP3(double x3 ,double y3, double z3) {this.p3 = new Point3D(x3, y3, z3);}
+
+    @Override
+    public List<Point3D> findIntersections(Ray ray) {
+        Plane plane = new Plane(this.getP1(), this.getP2(), this.getP3());
+        if (plane.findIntersections(ray) != null) {
+            Vector v1 = this.getP1().subtract(ray.getHead());
+            Vector v2 = this.getP2().subtract(ray.getHead());
+            Vector v3 = this.getP3().subtract(ray.getHead());
+
+            Vector n1 = v1.crossProduct(v2).normalize();
+            Vector n2 = v2.crossProduct(v3).normalize();
+            Vector n3 = v3.crossProduct(v1).normalize();
+
+            double sign1 = Math.signum(n1.dotProduct(ray.getDirection()));
+            double sign2 = Math.signum(n2.dotProduct(ray.getDirection()));
+            double sign3 = Math.signum(n3.dotProduct(ray.getDirection()));
+
+            if (sign1 == 0.0 || sign2 == 0.0 || sign3 == 0.0) {
+                return null;
+            } else {
+                return plane.findIntersections(ray);
+            }
+        }
+        return null;
+    }
+    @Override
+    public Vector getNormal(Point3D point){
+        Vector v1 = this.getP2().subtract(this.getP1());
+        Vector v2 = this.getP3().subtract(this.getP1());
+        return new Vector(v1.crossProduct(v2).normalize());
+    }
+//    @Override
+//    public Vector getNormal(Point3D point){
+//        Plane p = new Plane(this.getP1(), this.getP2(),this.getP3());
+//        return p.getVertical().normalize();
+//    }
 
     public boolean equals(Triangle other){
         return  this.p1.equals(other.getP1()) && this.p1.equals(other.getP2()) &&
