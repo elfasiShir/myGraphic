@@ -4,6 +4,7 @@ import Primitives.Ray;
 import Primitives.Vector;
 
 import java.util.List;
+import java.util.Objects;
 
 public class Triangle extends Geometry{
     private Point3D p1;
@@ -69,26 +70,49 @@ public class Triangle extends Geometry{
         }
         return null;
     }
+
     @Override
+    public Vector getNormal(Point3D point) {
+        Plane p = new Plane(this.getP1(),this.getP2(),this.getP3());
+        return p.getNormal(point);
+    }
+
+    /*@Override
     public Vector getNormal(Point3D point){
         Vector v1 = this.getP2().subtract(this.getP1());
         Vector v2 = this.getP3().subtract(this.getP1());
         return new Vector(v1.crossProduct(v2).normalize());
-    }
+    }*/
 //    @Override
 //    public Vector getNormal(Point3D point){
 //        Plane p = new Plane(this.getP1(), this.getP2(),this.getP3());
 //        return p.getVertical().normalize();
 //    }
 
-    public boolean equals(Triangle other){
-        return  this.p1.equals(other.getP1()) && this.p1.equals(other.getP2()) &&
-                this.p1.equals(other.getP3()) &&
-                this.p2.equals(other.getP1()) && this.p2.equals(other.getP2()) &&
-                this.p2.equals(other.getP3()) &&
-                this.p3.equals(other.getP1()) && this.p3.equals(other.getP2()) &&
-                this.p3.equals(other.getP3());
+//    public boolean equals(Triangle other){
+//        return  this.p1.equals(other.getP1()) && this.p1.equals(other.getP2()) &&
+//                this.p1.equals(other.getP3()) &&
+//                this.p2.equals(other.getP1()) && this.p2.equals(other.getP2()) &&
+//                this.p2.equals(other.getP3()) &&
+//                this.p3.equals(other.getP1()) && this.p3.equals(other.getP2()) &&
+//                this.p3.equals(other.getP3());
+//    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Triangle)) return false;
+        Triangle other = (Triangle) o;
+        return  this.p1.equals(other.getP1()) && this.p1.equals(other.getP2()) && this.p1.equals(other.getP3()) ||
+                this.p2.equals(other.getP1()) && this.p2.equals(other.getP2()) && this.p2.equals(other.getP3()) ||
+                this.p3.equals(other.getP1()) && this.p3.equals(other.getP2()) && this.p3.equals(other.getP3());
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(p1, p2, p3);
+    }
+
     @Override
     public String toString() {
         return "Triangle: " +

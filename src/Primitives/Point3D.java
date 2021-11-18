@@ -57,10 +57,14 @@ public class Point3D{
         return add(other.getHead());
     }
     public Vector subtract(Point3D other){
-        return new Vector(
+        Vector v = new Vector(
                 this.getXVal() - other.getXVal(),
                 this.getYVal() - other.getYVal(),
                 this.getZVal() - other.getZVal());
+        if (v.getHead().equals(Point3D.ZERO)){
+            throw new IllegalArgumentException("oh my gosh did you subtract to get point zero????");
+        }
+        return v;
     }
     public double distance(Point3D other){
         return Math.sqrt(
@@ -72,9 +76,9 @@ public class Point3D{
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Point3D)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         Point3D point3D = (Point3D) o;
-        return Objects.equals(x, point3D.x) && Objects.equals(y, point3D.y) && Objects.equals(z, point3D.z);
+        return x.equals(point3D.x) && y.equals(point3D.y) && z.equals(point3D.z);
     }
 
     @Override

@@ -44,18 +44,17 @@ public class Sphere extends Geometry{
         );
         if(distance > this.getRadius())
             return null;
-        else{
+        else {
             double th = Math.sqrt(
-                    Math.pow(this.getRadius(),2) -
-                            Math.pow(distance,2)
-                );
-                double t1 = tm-th;
-                double t2 = tm+th;
-                point3DList.add(cameraRay.getHead().add(cameraRay.getDirection().scale(t1)));
-                point3DList.add(cameraRay.getHead().add(cameraRay.getDirection().scale(t2)));
-                return point3DList;
-            }
-
+                    Math.pow(this.getRadius(), 2) -
+                            Math.pow(distance, 2)
+            );
+            double t1 = tm - th;
+            double t2 = tm + th;
+            point3DList.add(cameraRay.getHead().add(cameraRay.getDirection().scale(t1)));
+            point3DList.add(cameraRay.getHead().add(cameraRay.getDirection().scale(t2)));
+            return point3DList;
+        }
     }
     @Override
     public Vector getNormal(Point3D point) {

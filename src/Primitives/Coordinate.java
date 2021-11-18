@@ -10,7 +10,6 @@ public class Coordinate {
     public Coordinate(Coordinate other){this.value = other.value;}
     public double getValue(){return this.value;}
     public void setValue(double value){this.value = value;}
-    public boolean equals(Coordinate other){return this.value == other.getValue(); }
     public double add(Coordinate other){ return this.value + other.getValue();}
     @Override
     public String toString() { return "" + value; }
@@ -20,7 +19,7 @@ public class Coordinate {
         if (this == o) return true;
         if (!(o instanceof Coordinate)) return false;
         Coordinate that = (Coordinate) o;
-        return Double.compare(that.value, value) == 0;
+        return ((this.value - that.getValue() < 0.000000005) && (that.getValue() - this.value < 0.00000000005));
     }
 
     @Override

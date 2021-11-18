@@ -36,10 +36,10 @@ public class Vector {
     }
 
     public Vector(double x, double y, double z) {
-        this.head = new Point3D(x, y, z);
-        if (Point3D.ZERO.equals(this.head)) {
+        if (Point3D.ZERO.equals(new Point3D(x,y,z))) {
             throw new IllegalArgumentException("Zero vector is not allowed");
         }
+        this.head = new Point3D(x, y, z);
     }
     public Vector(Point3D p) {
         if (Point3D.ZERO.equals(p))
@@ -74,9 +74,9 @@ public class Vector {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Vector)) return false;
-        Vector vector = (Vector) o;
-        return Objects.equals(head, vector.head);
+        if (o == null || getClass() != o.getClass()) return false;
+        Vector vector2 = (Vector) o;
+        return this.normalize().head.equals(vector2.normalize().head);
     }
 
     @Override
