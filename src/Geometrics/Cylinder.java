@@ -18,19 +18,22 @@ public class Cylinder extends Geometry {
     }
     public Cylinder(double rad, double height,
                     double xPoint, double yPoint, double zPoint,
-                    double xVector, double yVector, double zVector){
+                    double xVector, double yVector, double zVector, Color color){
         this.rad = rad;
         this.height = height;
         this.axis = new Ray(xPoint, yPoint, zPoint, xVector, yVector, zVector);
+        this._emission = color;
     }
     public Cylinder(Cylinder other){
         this.rad = other.getRad();
         this.height = other.getHeight();
         this.axis = new Ray(other.getAxis());
+        this.setEmission(other.getEmission());
     }
 
     @Override
-    public List<Point3D> findIntersections(Ray ray){return null;}
+    public List<GeoPoint> findIntersections(Ray ray){return null;}
+
     @Override
     public Vector getNormal(Point3D point){return null;}
 

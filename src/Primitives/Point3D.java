@@ -1,4 +1,6 @@
 package Primitives;
+import Geometrics.GeoPoint;
+
 import java.lang.Math;
 import java.util.Objects;
 
@@ -71,6 +73,9 @@ public class Point3D{
                 Math.pow(this.getXVal() + other.getXVal(), 2) +
                 Math.pow(this.getYVal() + other.getYVal(), 2) +
                 Math.pow(this.getZVal() + other.getZVal(), 2));
+    }
+    public double distance(GeoPoint point) {
+        return this.distance(point.getPoint());
     }
 
     @Override

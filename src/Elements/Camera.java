@@ -104,4 +104,17 @@ public class Camera {
         return new Ray(this.P0, Vij.normalize());
     }
 
+    public Point3D tt(int nX, int nY, int j, int i,
+                      double screenDistance, double screenWidth, double screenHeight){
+        Point3D pCenter = new Point3D( this.P0.add( this.vTo.scale( screenDistance ) ) );
+        double rY = screenHeight / nY;
+        double rX = screenWidth / nX;
+        double yI = (i - nY/2.0 + 0.5) * rY;
+        double xJ = (j - nX/2.0 + 0.5) * rX;
+        Point3D pIJ = pCenter;
+        if(xJ != 0) pIJ = pIJ.add(this.vRight.scale(xJ));
+        if(yI != 0) pIJ = pIJ.add(this.vUp.scale(-yI));
+        return pIJ;
+    }
+
 }

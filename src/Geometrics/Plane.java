@@ -3,6 +3,7 @@ import Primitives.Point3D;
 import Primitives.Ray;
 import Primitives.Vector;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -34,10 +35,25 @@ public class Plane extends Geometry{
         this.vertical = v1.crossProduct(v2).normalize();
         this.point = new Point3D(p1);
     }
+    public Plane(Point3D p1, Point3D p2, Point3D p3, Color color) {
+        // if p1=p2 or p1=p3 - an exception will be thrown
+        Vector v1 = p2.subtract(p1);
+        Vector v2 = p3.subtract(p1);
+
+        // if the points are in the same line - X-product will throw an exception
+        this.vertical = v1.crossProduct(v2).normalize();
+        this.point = new Point3D(p1);
+        this._emission = color;
+    }
 
     public Plane(Point3D p, Vector n) {
         this.vertical = n.normalize();
         this.point = new Point3D(p);
+    }
+    public Plane(Point3D p, Vector n, Color color) {
+        this.vertical = n.normalize();
+        this.point = new Point3D(p);
+        this._emission = color;
     }
 
 
@@ -69,6 +85,7 @@ public class Plane extends Geometry{
         }
     }
   */
+/*
  @Override
  public List<Point3D> findIntersections(Ray ray) {
      List<Point3D> intersections = new ArrayList<>();
@@ -85,6 +102,8 @@ public class Plane extends Geometry{
      }
      return null;
  }
+ *\
+ */
     /*
     @Override
     public Vector getNormal(Point3D point) {
@@ -132,4 +151,20 @@ public class Plane extends Geometry{
         return correctD == otherD;
     }
 
+    @Override
+    public List<GeoPoint> findIntersections(Ray ray) {
+        List<GeoPoint> intersections = new ArrayList<>();
+        if (!this.point.equals(ray.getHead())) {
+            double numerator = this.vertical.dotProduct(this.point.subtract(ray.getHead()));
+            double denominator = this.vertical.dotProduct(ray.getDirection());
+            if (denominator == 0) {       // The Ray is contained or parallel to the plane.
+                return null;
+            } else if ( 0 < numerator / denominator) {
+                Point3D p = ray.getHead().add(ray.getDirection().scale(numerator / denominator));
+                intersections.add(new GeoPoint(this,p));
+                return intersections;
+            }
+        }
+        return null;
+    }
 }

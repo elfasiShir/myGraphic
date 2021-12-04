@@ -3,6 +3,7 @@ import Primitives.Point3D;
 import Primitives.Ray;
 import Primitives.Vector;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +18,11 @@ public class Sphere extends Geometry{
     public Sphere(Point3D center, double radius){
         this.center = new Point3D(center);
         this.radius = radius;
+    }
+    public Sphere(Point3D center, double radius, Color color){
+        this.center = new Point3D(center);
+        this.radius = radius;
+        this._emission = color;
     }
     public Sphere(double x, double y, double z, double radius){
         this.center = new Point3D(x, y, z);
@@ -34,27 +40,24 @@ public class Sphere extends Geometry{
     public void setRadius(double radius){this.radius = radius;}
 
     @Override
-    public List<Point3D> findIntersections(Ray cameraRay){
-        List<Point3D> point3DList = new ArrayList<Point3D>();
-        Vector u = cameraRay.getHead().subtract(this.getCenter());
-        double tm = cameraRay.getDirection().dotProduct(u);
-        double distance = Math.sqrt(
-                Math.pow(u.length(),2) -
-                        Math.pow(tm,2)
-        );
-        if(distance > this.getRadius())
-            return null;
-        else {
-            double th = Math.sqrt(
-                    Math.pow(this.getRadius(), 2) -
-                            Math.pow(distance, 2)
-            );
+    public List<GeoPoint> findIntersections(Ray ray) {
+        List<GeoPoint> list = new ArrayList<>();
+        Vector u = this.center.subtract(ray.getHead());
+        double tm = ray.getDirection().dotProduct(u);
+        double d = Math.sqrt( Math.pow(u.length(), 2) - Math.pow(tm, 2) );
+        if (d <= this.radius) {
+            double th = Math.sqrt( Math.pow(this.radius, 2) - Math.pow(d, 2) );
             double t1 = tm - th;
             double t2 = tm + th;
-            point3DList.add(cameraRay.getHead().add(cameraRay.getDirection().scale(t1)));
-            point3DList.add(cameraRay.getHead().add(cameraRay.getDirection().scale(t2)));
-            return point3DList;
+            if (0 < t1 || 0 < t2) {
+                if (0 < t1)
+                    list.add(new GeoPoint(this, ray.getHead().add( ray.getDirection().scale(t1) )) );
+                if (0 < t2)
+                    list.add(new GeoPoint( this,ray.getHead().add( ray.getDirection().scale(t2) )) );
+                return list;
+            }
         }
+        return null;
     }
     @Override
     public Vector getNormal(Point3D point) {
