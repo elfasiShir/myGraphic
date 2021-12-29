@@ -69,8 +69,7 @@ public class Renderer {
         }
         return minDistancePoint;
     }
-
     private Color calcColor(GeoPoint geoPoint){
-        return geoPoint.getGeometry().getEmission();
+        Color ambientLight = _scene.get_ambientLight().getIntensity();
     }
 }
