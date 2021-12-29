@@ -1,9 +1,11 @@
 package Renderer;
 
+import Elements.Light;
 import Geometrics.GeoPoint;
 import Geometrics.Geometry;
 import Primitives.Point3D;
 import Primitives.Ray;
+import Primitives.Vector;
 import Scene.Scene;
 
 import java.awt.*;
@@ -13,6 +15,7 @@ import java.util.List;
 public class Renderer {
     private Scene _scene;
     private ImageWriter _imageWriter;
+    private static final double ESP = 0.1;
 
     public Renderer(){
         this._scene = new Scene();
@@ -70,6 +73,56 @@ public class Renderer {
         return minDistancePoint;
     }
     private Color calcColor(GeoPoint geoPoint){
-        Color ambientLight = _scene.get_ambientLight().getIntensity();
+        Color ambientLight = _scene.get_ambientLight().getIntensity(geoPoint.getPoint());
+        Color emissionLight = geoPoint.getGeometry().getEmission();
+        Color diffuseLight = new Color(0,0,0);
+        Color specularLight = new Color(0,0,0);
+        for (Light light : this._scene.get_lights()){
+            if(!shaded(light.getL(geoPoint.getPoint()), geoPoint.getPoint(), geoPoint.getGeometry().getNormal(geoPoint.getPoint()))) {
+                diffuseLight = Light.colorPlusColor(
+                        diffuseLight, /*  plus  */
+                        calcDiffuseComp(
+                                geoPoint.getGeometry().getMaterial().getKd(),
+                                geoPoint.getGeometry().getNormal(geoPoint.getPoint()),
+                                light.getL(geoPoint.getPoint()),
+                                light.getIntensity(geoPoint.getPoint())
+                        )
+                );
+                specularLight = Light.colorPlusColor(
+                        specularLight, /*  plus  */
+                        calcSpecularComp(
+                                geoPoint.getGeometry().getMaterial().getKs(),
+                                new Vector(_scene.getCamera().getP0().subtract(geoPoint.getPoint())),
+                                geoPoint.getGeometry().getNormal(geoPoint.getPoint()),
+                                light.getL(geoPoint.getPoint()),
+                                geoPoint.getGeometry().getMaterial().getShininess(),
+                                light.getIntensity(geoPoint.getPoint())
+                        )
+                );
+            }
+        }
+        return Light.colorPlusColor(
+                Light.colorPlusColor(ambientLight,emissionLight),
+                Light.colorPlusColor(diffuseLight, specularLight)
+        );
+    }
+
+    private Color calcDiffuseComp(double kd, Vector normal, Vector l, Color intensity){
+        double coefficient = kd * normal.normalize().dotProduct(l.normalize());
+        return Light.colorMultiplyDouble(intensity, coefficient);
+    }
+
+    private Color calcSpecularComp(double ks, Vector v, Vector normal, Vector l, double shininess, Color intensity){
+        Vector r = l.subtract(normal.scale( -2 * l.dotProduct(normal)));
+        double coefficient = Math.pow( v.normalize().dotProduct(r.normalize()), shininess) *  ks;
+        return Light.colorMultiplyDouble(intensity, coefficient);
+    }
+    private boolean shaded(Vector l, Point3D point, Vector n){
+        Vector epsVector = n.scale(ESP).normalize();
+        Point3D newPoint = point.add(epsVector);
+
+        Ray shadowRay = new Ray(newPoint, l.normalize());
+        List<GeoPoint> intersections = getSceneRayIntersections(shadowRay);
+        return !intersections.isEmpty();
     }
 }

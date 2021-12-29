@@ -1,10 +1,9 @@
 
 package Scene;
 
-import Elements.AmbientLight;
+import Elements.*;
 import Elements.Camera;
 import Geometrics.*;
-import javafx.scene.effect.Light;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -72,6 +71,7 @@ public class Scene {
     public AmbientLight get_ambientLight() {return _ambientLight;}
     public void set_ambientLight(AmbientLight _ambientLight) {this._ambientLight = _ambientLight;}
 
+    public List<Light> get_lights() {return _lights;}
     public void setAmbientLight(AmbientLight _ambientLight) {this._ambientLight = _ambientLight;}
     public void setLights(List<Light> _lights) {this._lights = _lights;}
 
